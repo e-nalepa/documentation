@@ -893,6 +893,15 @@ components:
           type: array
         reflow_type:
           $ref: '#/components/schemas/DashboardReflowType'
+        restricted_roles:
+          description: A list of role identifiers. Only the author and users associated
+            with at least one of these roles can edit this dashboard. Overrides the
+            `is_read_only` property if both are present. **This feature is currently
+            in beta.**
+          items:
+            description: A role UUID.
+            type: string
+          type: array
         template_variable_presets:
           description: Array of template variables saved views.
           items:
@@ -21251,10 +21260,10 @@ paths:
           parameters:
           - name: body
             value: "{\n  \"data\": {\n    \"attributes\": {\n      \"slo_id\": \"\
-              {{ slo.data[0].id }}\",\n      \"start\": {{ now_ts }},\n      \"end\"\
-              : {{ hour_later_ts }},\n      \"category\": \"Other\",\n      \"timezone\"\
-              : \"UTC\",\n      \"description\": \"Test Correction\"\n     },\n  \
-              \   \"type\": \"correction\"\n  }\n}"
+              {{ slo.data[0].id }}\",\n      \"start\": {{ timestamp(now) }},\n  \
+              \    \"end\": {{ timestamp(now + 1h) }},\n      \"category\": \"Other\"\
+              ,\n      \"timezone\": \"UTC\",\n      \"description\": \"Test Correction\"\
+              \n     },\n     \"type\": \"correction\"\n  }\n}"
           step: there is a valid "correction" for "slo"
       x-menu-order: 1
       x-undo:
